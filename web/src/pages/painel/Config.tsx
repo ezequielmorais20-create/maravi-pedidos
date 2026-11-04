@@ -33,8 +33,8 @@ export default function Config() {
           <label><input type="checkbox" checked={cur.entregaAtiva} onChange={(e) => setS({ ...cur, entregaAtiva: e.target.checked })} /> Entrega ativa</label>
           <label htmlFor="lp">Prazo de retirada (texto mostrado ao cliente)</label><input id="lp" value={cur.retiradaPrazo} onChange={(e) => setS({ ...cur, retiradaPrazo: e.target.value })} />
           <label htmlFor="lr">Tempo de reserva do Pix (minutos, 5–120)</label><input id="lr" type="number" min={5} max={120} value={cur.reservaMinutos} onChange={(e) => setS({ ...cur, reservaMinutos: e.target.value })} />
-          <label><input type="checkbox" checked={cur.pagamentoLocalAtivo} onChange={(e) => setS({ ...cur, pagamentoLocalAtivo: e.target.checked })} /> Permitir pagar na retirada/entrega (a equipe confirma o recebimento)</label>
-          <label htmlFor="lh">Reserva dos itens no pagamento na loja (horas, 1–168)</label><input id="lh" type="number" min={1} max={168} value={cur.reservaLocalHoras} onChange={(e) => setS({ ...cur, reservaLocalHoras: e.target.value })} />
+          <label><input type="checkbox" checked={cur.pagamentoLocalAtivo} onChange={(e) => setS({ ...cur, pagamentoLocalAtivo: e.target.checked })} /> Permitir pagamento manual após conferência (a equipe envia o Pix e confirma o recebimento)</label>
+          <label htmlFor="lh">Reserva dos itens enquanto a loja confere e aguarda pagamento (horas, 1–168)</label><input id="lh" type="number" min={1} max={168} value={cur.reservaLocalHoras} onChange={(e) => setS({ ...cur, reservaLocalHoras: e.target.value })} />
           <label htmlFor="ld">Desconto para pagamento no Pix (%, 0–30)</label><input id="ld" type="number" min={0} max={30} step="0.5" value={cur.descontoPixPercent} onChange={(e) => setS({ ...cur, descontoPixPercent: e.target.value })} />
         </fieldset>
         {edit && <button className="btn mt">Salvar</button>}

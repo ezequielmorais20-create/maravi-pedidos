@@ -2,7 +2,7 @@
 """
 Valida todas as consultas SQL estáticas do código (sem interpolação ${...}) com PREPARE no PostgreSQL real.
 Pega erro de sintaxe, tabela/coluna inexistente e tipo de parâmetro ambíguo — sem precisar subir o servidor.
-Uso: PGPASSWORD=... python3 server/scripts/sql-smoke.py "postgresql://maravi:maravi_dev@127.0.0.1/maravi_dev"
+Uso: DATABASE_URL="$TEST_DATABASE_URL" python3 server/scripts/sql-smoke.py
 """
 import os, re, subprocess, sys, glob
 

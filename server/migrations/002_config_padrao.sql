@@ -3,7 +3,7 @@ INSERT INTO settings (key, value) VALUES
   ('loja',                '{"nome":"MARAVI — Achadinhos e Variedades","endereco":"Avenida do São Raimundo, São Luís – MA","whatsapp":""}'::jsonb),
   ('retirada_ativa',      'true'::jsonb),
   ('entrega_ativa',       'true'::jsonb),
-  ('retirada_prazo',      '"Pronto para retirada em até 30 minutos após a confirmação do Pix."'::jsonb),
+  ('retirada_prazo',      '"Pronto para retirada em até 30 minutos após a confirmação do pagamento pela equipe."'::jsonb),
   ('reserva_minutos',     '15'::jsonb),
   ('desconto_pix_percent','0'::jsonb)
 ON CONFLICT (key) DO NOTHING;

@@ -21,7 +21,7 @@ export default function Visao() {
         <S l="Na fila de separação" v={d.naFila} to="/painel/fila" />
         <S l="Em separação" v={d.emSeparacao} to="/painel/fila" />
         <S l="Prontos / em rota" v={d.prontosOuEmRota} to="/painel/fila" />
-        <S l="Aguardando Pix" v={d.aguardandoPix} to="/painel/fila?aba=aguardando" />
+        <S l="Aguardando pagamento" v={d.aguardandoPix} to="/painel/fila?aba=aguardando" />
         <S l="Em análise" v={d.emAnalise} to="/painel/fila?aba=analise" warn />
         <S l="Exceções abertas" v={d.excecoesAbertas} to="/painel/fila?aba=excecoes" warn />
         <S l="Estoque baixo" v={d.estoqueBaixo} to="/painel/estoque?baixo=1" warn />

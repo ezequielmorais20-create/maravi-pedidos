@@ -18,8 +18,6 @@ import { staffCatalogRoutes } from './routes/staff-catalog';
 import { staffOrderRoutes } from './routes/staff-orders';
 import { sessionUser } from './services/auth';
 
-type HeaderSetter = { setHeader(name: string, value: string): unknown };
-
 const UNSAFE = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 export async function buildApp(opts: { logger?: boolean; rateLimit?: boolean } = {}): Promise<FastifyInstance> {
@@ -113,10 +111,10 @@ export async function buildApp(opts: { logger?: boolean; rateLimit?: boolean } =
     await app.register(fastifyStatic, {
       root: config.webDist,
       prefix: '/',
-      setHeaders(res: HeaderSetter, filePath: string) {
+      setHeaders(reply, filePath) {
         const base = path.basename(filePath);
-        if (base === 'index.html' || base === 'sw.js' || base === 'manifest.webmanifest') res.setHeader('Cache-Control', 'no-cache');
-        else if (filePath.includes(`${path.sep}assets${path.sep}`)) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        if (base === 'index.html' || base === 'sw.js' || base === 'manifest.webmanifest') reply.header('Cache-Control', 'no-cache');
+        else if (filePath.includes(`${path.sep}assets${path.sep}`)) reply.header('Cache-Control', 'public, max-age=31536000, immutable');
       },
     });
   }
@@ -125,11 +123,11 @@ export async function buildApp(opts: { logger?: boolean; rateLimit?: boolean } =
     root: config.uploadDir,
     prefix: '/uploads/',
     decorateReply: !hasWeb,
-    setHeaders(res: HeaderSetter) {
+    setHeaders(reply) {
       // Imagens enviadas nunca executam script, mesmo se abertas diretamente.
-      res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox");
-      res.setHeader('X-Content-Type-Options', 'nosniff');
-      res.setHeader('Cache-Control', 'public, max-age=86400');
+      reply.header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox");
+      reply.header('X-Content-Type-Options', 'nosniff');
+      reply.header('Cache-Control', 'public, max-age=86400');
     },
   });
 

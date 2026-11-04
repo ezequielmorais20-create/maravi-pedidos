@@ -1,35 +1,29 @@
-import { z, ZodError, type ZodIssueCode } from 'zod';
+import { z, ZodError } from 'zod';
 import { badRequest } from './errors';
 
-const ptMap: z.ZodErrorMap = (issue, ctx) => {
-  switch (issue.code as ZodIssueCode) {
+const ptMap: z.core.$ZodErrorMap = (issue) => {
+  switch (issue.code) {
     case 'invalid_type':
-      return { message: ctx.data === undefined ? 'Campo obrigatório.' : 'Tipo de valor inválido.' };
-    case 'too_small': {
-      const i = issue as z.ZodTooSmallIssue;
-      if (i.type === 'string') return { message: i.minimum === 1 ? 'Campo obrigatório.' : `Mínimo de ${i.minimum} caracteres.` };
-      if (i.type === 'array') return { message: `Informe ao menos ${i.minimum} item(ns).` };
-      return { message: `O valor mínimo é ${i.minimum}.` };
-    }
-    case 'too_big': {
-      const i = issue as z.ZodTooBigIssue;
-      if (i.type === 'string') return { message: `Máximo de ${i.maximum} caracteres.` };
-      if (i.type === 'array') return { message: `No máximo ${i.maximum} item(ns).` };
-      return { message: `O valor máximo é ${i.maximum}.` };
-    }
-    case 'invalid_string': {
-      const i = issue as z.ZodInvalidStringIssue;
-      if (i.validation === 'email') return { message: 'E-mail inválido.' };
-      if (i.validation === 'uuid') return { message: 'Identificador inválido.' };
+      return { message: issue.input === undefined ? 'Campo obrigatório.' : 'Tipo de valor inválido.' };
+    case 'too_small':
+      if (issue.origin === 'string') return { message: issue.minimum === 1 ? 'Campo obrigatório.' : `Mínimo de ${issue.minimum} caracteres.` };
+      if (issue.origin === 'array') return { message: `Informe ao menos ${issue.minimum} item(ns).` };
+      return { message: `O valor mínimo é ${issue.minimum}.` };
+    case 'too_big':
+      if (issue.origin === 'string') return { message: `Máximo de ${issue.maximum} caracteres.` };
+      if (issue.origin === 'array') return { message: `No máximo ${issue.maximum} item(ns).` };
+      return { message: `O valor máximo é ${issue.maximum}.` };
+    case 'invalid_format':
+      if (issue.format === 'email') return { message: 'E-mail inválido.' };
+      if (issue.format === 'uuid') return { message: 'Identificador inválido.' };
       return { message: 'Formato inválido.' };
-    }
-    case 'invalid_enum_value':
+    case 'invalid_value':
       return { message: 'Valor não permitido.' };
     default:
-      return { message: ctx.defaultError };
+      return undefined;
   }
 };
-z.setErrorMap(ptMap);
+z.config({ customError: ptMap });
 
 export function parse<S extends z.ZodTypeAny>(schema: S, data: unknown): z.infer<S> {
   const r = schema.safeParse(data);

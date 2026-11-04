@@ -1,56 +1,44 @@
 # MARAVI Pedidos
 
 Loja virtual (PWA) e painel da equipe da **MARAVI — Achadinhos e Variedades** (Av. do São Raimundo, São Luís–MA).
-Pedido com pagamento por Pix, reserva de estoque, fila de separação pelo horário real do pagamento, caixa e trilha de auditoria.
+Pedidos salvos no sistema, pagamento manual combinado com a loja, estoque, caixa e trilha de auditoria. A equipe envia o Pix depois de conferir o pedido.
 
 - Back-end: Node 22 · TypeScript · Fastify 5 · PostgreSQL 16 (driver `pg`) · zod
 - Front-end: React 18 · Vite · React Router · PWA (manifest + service worker)
 - Idioma pt-BR · valores em **centavos inteiros** · datas exibidas em **America/Fortaleza**
 
-> **Estado atual: venda com pagamento combinado com a loja.** O padrão é `PIX_MODE=desabilitado` (sem Pix). O cliente faz o pedido e escolhe pagar na retirada ou na entrega; os itens ficam reservados (24 h, configurável) e a equipe confirma o recebimento no painel (dinheiro, cartão ou Pix direto na conta da loja). Só então o pedido entra na fila de separação, o estoque baixa e o caixa recebe o lançamento. Quem confirma fica registrado. Para testar o fluxo de Pix localmente, use `PIX_MODE=simulado` no `.env`.
+> **Fluxo atual: pedido registrado e pagamento manual.** O padrão é `PIX_MODE=desabilitado`: não há cobrança Pix automática. A cliente envia o pedido, que fica reservado (24 h, configurável) e aparece no painel. A equipe confere os itens e a disponibilidade, envia manualmente a chave ou o link Pix pelo WhatsApp e, após receber e verificar o comprovante, confirma o pagamento no painel. Só então o pedido entra na fila de separação, o estoque baixa e o caixa recebe o lançamento. Quem confirma fica registrado.
 >
 > **O Pix, quando ligado em modo simulado, é FALSO.** Nada aqui cobra dinheiro de verdade. A integração real com um provedor
 > ainda não existe e precisa ser feita e homologada (veja `docs/HOMOLOGACAO.md`). O app recusa subir em
 > produção com Pix simulado.
 
-## Situação desta entrega (honesta)
+## Situação desta entrega
 
-O ambiente em que este código foi escrito **não conseguiu instalar pacotes do npm** (acesso ao registro bloqueado).
-Por isso **nada que depende de `fastify`, `zod`, `react` etc. foi executado de ponta a ponta** — ver a tabela abaixo.
-Instale as dependências e rode os testes no seu computador antes de confiar no sistema.
-
-| Verificado neste ambiente | Como |
+| Verificado | Resultado |
 |---|---|
-| Migrações aplicam em PostgreSQL 16 real | `psql` |
-| Invariantes do banco (estoque nunca negativo, avariado ≤ físico, 1 pagamento/1 lançamento por cobrança, tabelas só-de-inserção, estorno ligado ao pedido) | `server/test/sql/invariantes.sql` |
-| Disputa pela última unidade (16 conexões × 40 rodadas, 0 violações) | `pgbench` contra a regra SQL atômica |
-| 21 testes de unidade (BR Code/CRC16, dinheiro, CSV, permissões, regras de status) | `tsx --test` |
-| ~160 comandos SQL do código preparados no banco (nomes de colunas/tabelas) | `server/scripts/sql-smoke.py` |
-| Checagem de tipos TypeScript **com tipos "de mentira"** das bibliotecas | `tsc` (não substitui compilar de verdade) |
+| Instalação reproduzível com `npm ci --include=dev` | concluída |
+| Testes com PostgreSQL local descartável (`npm test`) | 61 passaram: 21 unitários e 40 de integração |
+| `npm run typecheck` e `npm run build` | concluídos sem erros |
+| Migrações e importação inicial na Neon | aplicadas; 17 produtos com 400 unidades cada |
+| Link público e teste em celular | pendentes até a publicação |
 
-| **NÃO executado** (pendente na sua máquina) | |
-|---|---|
-| `npm install`, `npm run build`, `npm run typecheck` de verdade | |
-| Testes de integração (`server/test/*.test.ts`: Pix duplicado, pagamento fora de ordem, última unidade, expiração, Pix tardio, avaria, estorno, acesso a pedido de outro cliente, permissões) — escritos, tipados, **nunca rodados** | |
-| Rotas HTTP, transações dos serviços e todo o front-end em execução | |
-| Instalação do PWA e uso em celular | |
-
-Espere corrigir pequenos erros no primeiro `npm test`/`npm run build`.
+O Pix automático permanece desabilitado. O vendedor confere o pedido e envia a chave ou o link Pix manualmente; a equipe confirma o pagamento no painel.
 
 ## Como rodar
 
-Pré-requisitos: Node ≥ 20.12 (recomendado 22), npm, PostgreSQL 16 (ou Docker).
+Pré-requisitos: Node 22, npm e PostgreSQL 16 (ou Docker).
 
 ```bash
-cp .env.example .env            # ajuste se necessário (veja variáveis abaixo)
-docker compose up -d            # PostgreSQL local (usuário maravi / senha maravi_dev)
+cp .env.example .env            # preencha POSTGRES_PASSWORD, DATABASE_URL, TEST_DATABASE_URL e PIX_WEBHOOK_SECRET localmente
+docker compose up -d            # PostgreSQL local; a senha deve ficar somente em .env
 # crie também o banco de testes:
 docker compose exec db psql -U maravi -c "CREATE DATABASE maravi_test"
 
-npm install
+npm ci --include=dev
 npm run db:migrate              # cria as tabelas
-npm run db:seed                 # dados de demonstração (SEED_RESET=1 para recriar)
-npm run import-products -w server  # (alternativa ao seed) cadastra os 17 produtos reais da planilha, com custo e preço
+npm run db:seed                 # exige SEED_PASSWORD forte definida somente no .env
+npm run import-products -w server  # (alternativa ao seed) importa produtos; custos reais devem ser preenchidos no painel
 npm run dev                     # API em http://localhost:3000
 npm run dev:web                 # (outro terminal) front em http://localhost:5173
 ```
@@ -68,7 +56,9 @@ npm test                         # server: vitest (usa TEST_DATABASE_URL; APAGA 
 npm run typecheck
 ```
 
-### Logins de demonstração (senha: `Maravi@Demo2026`)
+### Logins de demonstração
+
+As contas abaixo são criadas por `npm run db:seed` apenas em desenvolvimento. Antes, defina uma `SEED_PASSWORD` forte no `.env` local; não existe senha padrão no repositório.
 
 | E-mail | Perfil |
 |---|---|

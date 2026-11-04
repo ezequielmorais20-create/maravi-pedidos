@@ -87,7 +87,7 @@ export async function priceCart(db: Db, userId: string, input: CartInput, strict
 
   const settings = await getSettings(db);
   const subtotal = lines.reduce((s, l) => s + l.lineTotalCents, 0);
-  const method = input.paymentMethod ?? 'pix';
+  const method = input.paymentMethod ?? 'local';
   if (method === 'local' && !settings.pagamentoLocalAtivo) throw unprocessable('O pagamento combinado com a loja está desativado no momento.', 'pagamento_local_desativado');
   const discount = method === 'pix' ? percentOfFloor(subtotal, settings.descontoPixPercent) : 0; // desconto Pix só vale para Pix
 
@@ -150,7 +150,7 @@ export interface Customer {
 }
 
 export async function createCheckout(customer: Customer, input: CartInput & { idempotencyKey: string }) {
-  const local = input.paymentMethod === 'local';
+  const local = (input.paymentMethod ?? 'local') === 'local';
   const provider = local ? null : getPixProvider(); // falha cedo (503) se o Pix está desabilitado: nada é reservado
 
   const existing = await q1<{ id: string }>(pool, `SELECT id FROM orders WHERE user_id = $1 AND idempotency_key = $2`, [customer.id, input.idempotencyKey]);
@@ -553,4 +553,3 @@ export async function simulatePixPayment(orderId: string, opts: { settledAt?: Da
   const r = await handleWebhook(signed.body, signed.headers);
   return { signed, result: r.result };
 }
-

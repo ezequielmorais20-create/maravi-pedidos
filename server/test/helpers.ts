@@ -78,12 +78,13 @@ export async function stockOf(skuId: string) {
 
 export const asCustomer = (u: TestUser) => ({ id: u.id, name: u.name, email: u.email, phone: u.phone });
 
-export async function placeOrder(u: TestUser, items: { skuId: string; quantity: number }[], mode: 'retirada' | 'entrega' = 'retirada', extra: { addressId?: string; key?: string } = {}) {
+export async function placeOrder(u: TestUser, items: { skuId: string; quantity: number }[], mode: 'retirada' | 'entrega' = 'retirada', extra: { addressId?: string; key?: string; paymentMethod?: 'pix' | 'local' } = {}) {
   seq++;
   return orders.createCheckout(asCustomer(u), {
     items,
     deliveryMode: mode,
     addressId: extra.addressId ?? null,
+    paymentMethod: extra.paymentMethod ?? 'pix',
     idempotencyKey: extra.key ?? `teste-${seq}-${Math.random().toString(36).slice(2)}`,
   });
 }

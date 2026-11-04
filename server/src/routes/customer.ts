@@ -14,7 +14,7 @@ const cartSchema = z.object({
   items: z.array(z.object({ skuId: uuid, quantity: z.number().int().min(1).max(99) })).min(1).max(50),
   deliveryMode: z.enum(['retirada', 'entrega']),
   addressId: uuid.optional().nullable(),
-  paymentMethod: z.enum(['pix', 'local']).default('pix'),
+  paymentMethod: z.enum(['pix', 'local']).default('local'),
 });
 
 const addressSchema = z.object({

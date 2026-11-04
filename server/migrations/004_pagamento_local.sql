@@ -3,7 +3,7 @@
 -- e a equipe confirma o recebimento (dinheiro, cartão, Pix direto na conta da loja...) no painel.
 
 ALTER TABLE orders
-  ADD COLUMN payment_method text NOT NULL DEFAULT 'pix' CHECK (payment_method IN ('pix','local'));
+  ADD COLUMN payment_method text NOT NULL DEFAULT 'local' CHECK (payment_method IN ('pix','local'));
 
 -- Pagamento local não tem cobrança Pix do provedor.
 ALTER TABLE payments ALTER COLUMN charge_id DROP NOT NULL;

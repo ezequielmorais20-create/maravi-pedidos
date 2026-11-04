@@ -66,13 +66,14 @@ describe('Estoque: última unidade e quatro números', () => {
     await tx((c) => stock.registerDamage(c, adm, { skuId, quantity: 1, reason: 'Quebrou na separação', orderId: o.id }));
     const ex = await stock.listExceptions(pool, 'aberta');
     expect(ex).toHaveLength(1);
-    await expect(tx((c) => advanceFulfillment(c, adm, o.id, 'em_separacao'))).rejects.toThrow();
+    await tx((c) => advanceFulfillment(c, adm, o.id, 'em_separacao'));
+    await expect(tx((c) => advanceFulfillment(c, adm, o.id, 'pronto_retirada'))).rejects.toThrow();
     // repõe unidade e resolve
     await tx((c) => stock.entry(c, adm, { skuId, quantity: 1, reason: 'Reposição' }));
     await tx((c) => stock.resolveException(c, adm, ex[0]!.id as string, 'Reposto'));
     expect(await stock.listExceptions(pool, 'aberta')).toHaveLength(0);
-    await tx((c) => advanceFulfillment(c, adm, o.id, 'em_separacao'));
-    expect((await orderRow(o.id)).fulfillmentStatus).toBe('em_separacao');
+    await tx((c) => advanceFulfillment(c, adm, o.id, 'pronto_retirada'));
+    expect((await orderRow(o.id)).fulfillmentStatus).toBe('pronto_retirada');
   });
 
   it('pular etapas do atendimento é recusado (pago → concluído)', async () => {
@@ -122,7 +123,7 @@ describe('Expiração e Pix tardio', () => {
     const o2 = await placeOrder(await makeUser(), [{ skuId, quantity: 1 }]);
     // o primeiro cliente paga tarde
     const signed = await sim().markPaid((await chargeOf(o.id)).providerChargeId);
-    expect((await handleWebhook(signed.body, signed.headers)).result).toMatch(/confirmado|tardio/);
+    expect((await handleWebhook(signed.body, signed.headers)).result).toBe('pago_apos_vencimento');
     const row = await orderRow(o.id);
     expect(row.paymentStatus).toBe('pago');
     expect(row.fulfillmentStatus).toBe('em_analise');

@@ -43,7 +43,11 @@ npm install
 cp .env.example .env     # preencher DATABASE_URL, APP_URL
 npm run db:migrate
 npm run import-products -w server      # 17 produtos, 400 un.
-USER_NAME="Admin" USER_EMAIL=voce@dominio.com USER_ROLE=administrador USER_PASSWORD='SenhaForte123' npm run create-user -w server
+read -rsp 'Senha inicial: ' USER_PASSWORD
+printf '\n'
+export USER_PASSWORD
+USER_NAME="Admin" USER_EMAIL=voce@dominio.com USER_ROLE=administrador npm run create-user -w server
+unset USER_PASSWORD
 npm run build && npm start
 ```
 Variáveis importantes: `DATABASE_URL`, `APP_URL`, `APP_ENV=producao`, `PIX_MODE=desabilitado`, `TRUST_PROXY=true`, `UPLOAD_DIR`.

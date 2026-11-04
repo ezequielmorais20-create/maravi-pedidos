@@ -10,7 +10,7 @@ export const reaisToCents = (s: string) => Math.round(Number(s.replace(/\./g, ''
 export const centsToReais = (c: number) => (c / 100).toFixed(2).replace('.', ',');
 
 export const PAYMENT_LABEL: Record<string, string> = {
-  pendente: 'Aguardando Pix', pago: 'Pago', expirado: 'Pix expirado', cancelado: 'Cancelado', estornado: 'Estornado',
+  pendente: 'Aguardando pagamento', pago: 'Pago', expirado: 'Reserva expirada', cancelado: 'Cancelado', estornado: 'Estornado',
 };
 export const FULFILLMENT_LABEL: Record<string, string> = {
   aguardando_pagamento: 'Aguardando pagamento', pago: 'Pago — na fila', em_analise: 'Em análise', em_separacao: 'Em separação',

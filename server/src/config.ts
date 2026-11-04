@@ -41,7 +41,7 @@ const schema = z.object({
   SCRYPT_COST: z.coerce.number().int().min(10).max(18).default(15),
   UPLOAD_DIR: z.string().default(path.resolve(__dirname, '../uploads')),
   WEB_DIST: z.string().default(path.resolve(__dirname, '../../web/dist')),
-  SEED_PASSWORD: z.string().default('Maravi@Demo2026'),
+  SEED_PASSWORD: z.string().default(''),
 });
 
 export type AppConfig = ReturnType<typeof buildConfig>;

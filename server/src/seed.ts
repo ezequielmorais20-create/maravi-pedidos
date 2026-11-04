@@ -55,7 +55,7 @@ interface Demo {
 }
 
 const DEMO: Demo[] = [
-  { name: 'Rímel Volume Total', desc: 'Máscara de cílios preta, efeito volume, à prova d’água.', cat: 'Maquiagem', icon: 'rimel', bg: '#FCE8EF', skus: [{ sku: 'RIM-001', price: 1500, cost: 700, stock: 30, min: 5 }] },
+  { name: 'Rímel Volume Total', desc: 'Máscara de cílios preta, efeito volume, à prova d’água.', cat: 'Maquiagem', icon: 'rimel', bg: '#FCE8EF', skus: [{ sku: 'RIM-001', price: 1500, cost: 0, stock: 30, min: 5 }] },
   {
     name: 'Batom Matte',
     desc: 'Acabamento matte de longa duração.',
@@ -63,13 +63,13 @@ const DEMO: Demo[] = [
     icon: 'batom',
     bg: '#FCE8EF',
     skus: [
-      { sku: 'BAT-ROS', variant: 'Rosa Chá', price: 1500, cost: 650, stock: 12, min: 4 },
-      { sku: 'BAT-VIN', variant: 'Vinho', price: 1500, cost: 650, stock: 1, min: 4 },
-      { sku: 'BAT-NUD', variant: 'Nude', price: 1500, cost: 650, stock: 0, min: 4 },
+      { sku: 'BAT-ROS', variant: 'Rosa Chá', price: 1500, cost: 0, stock: 12, min: 4 },
+      { sku: 'BAT-VIN', variant: 'Vinho', price: 1500, cost: 0, stock: 1, min: 4 },
+      { sku: 'BAT-NUD', variant: 'Nude', price: 1500, cost: 0, stock: 0, min: 4 },
     ],
   },
-  { name: 'Esfoliante Corporal de Açúcar', desc: 'Esfoliante suave com óleo de amêndoas.', cat: 'Cuidados pessoais', icon: 'jar', bg: '#F8D5E0', skus: [{ sku: 'ESF-COR', price: 1500, cost: 780, stock: 20, min: 4 }] },
-  { name: 'Esfoliante Labial', desc: 'Remove as peles e deixa os lábios macios.', cat: 'Cuidados pessoais', icon: 'tubo', bg: '#F8D5E0', skus: [{ sku: 'ESF-LAB', price: 1500, cost: 720, stock: 15, min: 4 }] },
+  { name: 'Esfoliante Corporal de Açúcar', desc: 'Esfoliante suave com óleo de amêndoas.', cat: 'Cuidados pessoais', icon: 'jar', bg: '#F8D5E0', skus: [{ sku: 'ESF-COR', price: 1500, cost: 0, stock: 20, min: 4 }] },
+  { name: 'Esfoliante Labial', desc: 'Remove as peles e deixa os lábios macios.', cat: 'Cuidados pessoais', icon: 'tubo', bg: '#F8D5E0', skus: [{ sku: 'ESF-LAB', price: 1500, cost: 0, stock: 15, min: 4 }] },
   {
     name: 'Xuxinha de Cetim',
     desc: 'Elástico de cabelo em cetim, não marca.',
@@ -77,12 +77,12 @@ const DEMO: Demo[] = [
     icon: 'xuxinha',
     bg: '#FFF0F5',
     skus: [
-      { sku: 'XUX-ROS', variant: 'Rosa', price: 1000, cost: 350, stock: 40, min: 8 },
-      { sku: 'XUX-PRE', variant: 'Preto', price: 1000, cost: 350, stock: 35, min: 8 },
+      { sku: 'XUX-ROS', variant: 'Rosa', price: 1000, cost: 0, stock: 40, min: 8 },
+      { sku: 'XUX-PRE', variant: 'Preto', price: 1000, cost: 0, stock: 35, min: 8 },
     ],
   },
-  { name: 'Presilha Garra', desc: 'Presilha garra média, várias cores.', cat: 'Acessórios', icon: 'presilha', bg: '#FFF0F5', skus: [{ sku: 'PRE-GAR', price: 1000, cost: 400, stock: 25, min: 5 }] },
-  { name: 'Necessaire Rosa', desc: 'Necessaire com zíper, ideal para maquiagem.', cat: 'Acessórios', icon: 'necessaire', bg: '#FFF0F5', skus: [{ sku: 'NEC-ROS', price: 1000, cost: 450, stock: 0, min: 3 }] },
+  { name: 'Presilha Garra', desc: 'Presilha garra média, várias cores.', cat: 'Acessórios', icon: 'presilha', bg: '#FFF0F5', skus: [{ sku: 'PRE-GAR', price: 1000, cost: 0, stock: 25, min: 5 }] },
+  { name: 'Necessaire Rosa', desc: 'Necessaire com zíper, ideal para maquiagem.', cat: 'Acessórios', icon: 'necessaire', bg: '#FFF0F5', skus: [{ sku: 'NEC-ROS', price: 1000, cost: 0, stock: 0, min: 3 }] },
   {
     name: 'Óculos de Sol Gatinho',
     desc: 'Armação gatinho com proteção UV.',
@@ -90,12 +90,12 @@ const DEMO: Demo[] = [
     icon: 'oculos',
     bg: '#F3C9D8',
     skus: [
-      { sku: 'OCU-GAT-PRE', variant: 'Preto', price: 2000, cost: 900, stock: 14, min: 3 },
-      { sku: 'OCU-GAT-TAR', variant: 'Tartaruga', price: 2000, cost: 900, stock: 9, min: 3 },
+      { sku: 'OCU-GAT-PRE', variant: 'Preto', price: 2000, cost: 0, stock: 14, min: 3 },
+      { sku: 'OCU-GAT-TAR', variant: 'Tartaruga', price: 2000, cost: 0, stock: 9, min: 3 },
     ],
   },
-  { name: 'Óculos Redondo Vintage', desc: 'Armação redonda leve, lentes UV400.', cat: 'Óculos', icon: 'oculos', bg: '#F3C9D8', skus: [{ sku: 'OCU-RED', price: 2000, cost: 880, stock: 10, min: 3 }] },
-  { name: 'Hidratante Labial (em breve)', desc: 'Rascunho: ainda não publicado.', cat: 'Cuidados pessoais', icon: 'tubo', bg: '#F8D5E0', status: 'rascunho', skus: [{ sku: 'HID-LAB', price: 1200, cost: 500, stock: 0, min: 3 }] },
+  { name: 'Óculos Redondo Vintage', desc: 'Armação redonda leve, lentes UV400.', cat: 'Óculos', icon: 'oculos', bg: '#F3C9D8', skus: [{ sku: 'OCU-RED', price: 2000, cost: 0, stock: 10, min: 3 }] },
+  { name: 'Hidratante Labial (em breve)', desc: 'Rascunho: ainda não publicado.', cat: 'Cuidados pessoais', icon: 'tubo', bg: '#F8D5E0', status: 'rascunho', skus: [{ sku: 'HID-LAB', price: 1200, cost: 0, stock: 0, min: 3 }] },
 ];
 
 async function reset(): Promise<void> {
@@ -109,6 +109,7 @@ async function reset(): Promise<void> {
 
 async function main(): Promise<void> {
   if (config.isProd) throw new Error('O seed de demonstração é bloqueado em produção.');
+  if (config.seedPassword.length < 12) throw new Error('Defina SEED_PASSWORD com pelo menos 12 caracteres em seu ambiente local antes do seed.');
   await runMigrations();
   if (process.env.SEED_RESET === '1') await reset();
 
@@ -183,7 +184,7 @@ async function main(): Promise<void> {
     console.log('PIX_MODE não é "simulado": pedidos de demonstração não foram criados.');
   }
 
-  console.log('\nDados de demonstração criados. Logins (senha: valor de SEED_PASSWORD, padrão Maravi@Demo2026):');
+  console.log('\nDados de demonstração criados. Logins: a senha é a definida localmente em SEED_PASSWORD e não é exibida.');
   console.log('  Administradora : admin@maravi.demo');
   console.log('  Atendimento    : atendimento@maravi.demo');
   console.log('  Estoque        : estoque@maravi.demo');

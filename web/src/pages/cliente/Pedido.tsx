@@ -58,11 +58,11 @@ export default function Pedido() {
       )}
       {localPending && (
         <div className="card">
-          <h2>Pedido enviado</h2>
-          <p>Pague na {o.deliveryMode === 'retirada' ? 'retirada' : 'entrega'}: <b className="price">{brl(o.totalCents)}</b></p>
-          <p className="muted">Seus itens estão reservados até {dt(o.reservationExpiresAt)}. A loja confirma o pagamento e o pedido entra na separação. Esta tela atualiza quando isso acontecer.</p>
-          {cfg.data?.loja?.whatsapp && <p><a className="btn sm" target="_blank" rel="noopener" href={`https://wa.me/${cfg.data.loja.whatsapp}?text=${encodeURIComponent(`Olá! Segue o comprovante de pagamento do pedido #${o.number}.`)}`}>Enviar comprovante pelo WhatsApp</a></p>}
-          <p className="muted">O comprovante enviado por WhatsApp ajuda a loja a conferir, mas quem confirma o pagamento é a equipe no painel.</p>
+          <h2>Pedido recebido</h2>
+          <p>Total do pedido: <b className="price">{brl(o.totalCents)}</b></p>
+          <p className="muted">Seu pedido está reservado até {dt(o.reservationExpiresAt)}. A equipe vai conferir os itens e enviar a chave ou o link do Pix pelo WhatsApp. Não pague antes de receber as instruções. Esta tela atualiza quando a equipe confirmar o pagamento.</p>
+          {cfg.data?.loja?.whatsapp && <p><a className="btn sm" target="_blank" rel="noopener" href={`https://wa.me/${cfg.data.loja.whatsapp}?text=${encodeURIComponent(`Olá! Segue o comprovante de pagamento do pedido #${o.number}.` )}`}>Enviar comprovante pelo WhatsApp</a></p>}
+          <p className="muted">Depois de pagar, envie o comprovante pelo WhatsApp. A equipe confere e confirma o recebimento manualmente no painel.</p>
           <button className="btn sec sm" disabled={busy} onClick={cancel}>Cancelar pedido</button>
         </div>
       )}

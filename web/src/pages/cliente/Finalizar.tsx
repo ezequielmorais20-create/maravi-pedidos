@@ -33,7 +33,7 @@ export default function Finalizar() {
     if (!user || !items.length) return;
     if (mode === 'entrega' && !addressId) { setQuote(null); return; }
     let live = true;
-    post('/api/checkout/quote', { items, deliveryMode: mode, addressId: mode === 'entrega' ? addressId : null, paymentMethod: pm ?? 'pix' })
+    post('/api/checkout/quote', { items, deliveryMode: mode, addressId: mode === 'entrega' ? addressId : null, paymentMethod: pm ?? 'local' })
       .then((q) => { if (live) { setQuote(q); setErr(null); } })
       .catch((e) => { if (live) { setQuote(null); setErr(errMsg(e)); } });
     return () => { live = false; };
@@ -84,8 +84,8 @@ export default function Finalizar() {
         <div className="card">
           <h3>Forma de pagamento</h3>
           {c.pix.enabled && <label><input type="radio" name="pgto" checked={pm === 'pix'} onChange={() => setMethod('pix')} /> Pix agora <span className="muted">— confirmação automática</span></label>}
-          {c.pagamentoLocalAtivo && <label><input type="radio" name="pgto" checked={pm === 'local'} onChange={() => setMethod('local')} /> Pagar na {mode === 'retirada' ? 'retirada' : 'entrega'} <span className="muted">— combinado com a loja</span></label>}
-          {pm === 'local' && <p className="muted">Seus itens ficam reservados por {c.reservaLocalHoras} h. A loja confirma o pagamento (dinheiro, cartão ou Pix direto com a loja) e o pedido entra na separação.</p>}
+          {c.pagamentoLocalAtivo && <label><input type="radio" name="pgto" checked={pm === 'local'} onChange={() => setMethod('local')} /> Enviar pedido para conferência <span className="muted">— Pix enviado manualmente pela loja</span></label>}
+          {pm === 'local' && <p className="muted">Seus itens ficam reservados por {c.reservaLocalHoras} h. A equipe vai conferir o pedido e, se aprovado, enviará a chave ou o link do Pix pelo WhatsApp. Não há cobrança automática; pague somente após receber as instruções.</p>}
         </div>
       )}
       {err && <Alert>{err}</Alert>}

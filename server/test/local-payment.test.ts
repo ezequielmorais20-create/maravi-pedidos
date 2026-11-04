@@ -15,6 +15,17 @@ beforeAll(prepareDb);
 beforeEach(resetDb);
 
 describe('Pagamento combinado com a loja', () => {
+  it('usa pagamento local por padrão e não cria cobrança Pix', async () => {
+    const u = await makeUser();
+    const { skuId } = await makeSku({ price: 1500, stock: 5 });
+    const o = await createCheckout(asCustomer(u), {
+      items: [{ skuId, quantity: 1 }], deliveryMode: 'retirada', idempotencyKey: `default-local-${++seq}`,
+    });
+    expect(o.paymentMethod).toBe('local');
+    expect(o.pix).toBeNull();
+    expect(await count('pix_charges')).toBe(0);
+  });
+
   it('cria o pedido, reserva o estoque, não gera cobrança Pix e não aplica desconto Pix', async () => {
     await pool.query(`UPDATE settings SET value = '10' WHERE key = 'desconto_pix_percent'`);
     const u = await makeUser();
