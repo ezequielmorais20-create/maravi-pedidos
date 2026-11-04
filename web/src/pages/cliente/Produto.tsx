@@ -18,11 +18,13 @@ export default function Produto() {
   const skus: any[] = p.skus;
   const cur = skus.find((s) => s.id === sel) ?? skus.find((s) => s.available > 0) ?? skus[0];
   const photos: string[] = p.images?.length ? p.images : cur?.imageUrl ? [cur.imageUrl] : [];
+  const hasPhoto = Boolean(photos[img] ?? cur?.imageUrl);
   return (
     <>
       <p><Link to="/catalogo">← Catálogo</Link></p>
       <div className="card">
-        <div style={{ maxWidth: 420, margin: '0 auto' }}><Img src={photos[img] ?? cur?.imageUrl} alt={p.name} /></div>
+        <div className="product-detail-media" style={{ maxWidth: 420, margin: '0 auto' }}><Img src={photos[img] ?? cur?.imageUrl} alt={hasPhoto ? `Foto ilustrativa de ${p.name}` : p.name} /></div>
+        {hasPhoto && <p className="photo-disclaimer">Foto ilustrativa; cor e embalagem podem variar do produto disponível.</p>}
         {photos.length > 1 && <div className="row mt" style={{ justifyContent: 'center' }}>{photos.map((u, i) => <button key={u} className="btn sec sm" onClick={() => setImg(i)} aria-label={`Foto ${i + 1}`}>{i + 1}</button>)}</div>}
         <h1 className="mt">{p.name}</h1>
         <p className="muted">{p.category}</p>
