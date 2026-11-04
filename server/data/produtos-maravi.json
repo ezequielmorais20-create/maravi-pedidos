@@ -3,7 +3,7 @@
   "sku": "MAR-001",
   "nome": "Piranha de cabelo",
   "categoria": "Acessórios",
-  "custoCents": 333,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -11,7 +11,7 @@
   "sku": "MAR-002",
   "nome": "Pó solto de banana",
   "categoria": "Maquiagem",
-  "custoCents": 450,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -19,7 +19,7 @@
   "sku": "MAR-003",
   "nome": "Gloss 1",
   "categoria": "Maquiagem",
-  "custoCents": 350,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -27,7 +27,7 @@
   "sku": "MAR-004",
   "nome": "Gloss 2",
   "categoria": "Maquiagem",
-  "custoCents": 450,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -35,7 +35,7 @@
   "sku": "MAR-005",
   "nome": "Gloss 3",
   "categoria": "Maquiagem",
-  "custoCents": 435,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -43,7 +43,7 @@
   "sku": "MAR-006",
   "nome": "Prendedor de cabelo",
   "categoria": "Acessórios",
-  "custoCents": 42,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -51,7 +51,7 @@
   "sku": "MAR-007",
   "nome": "Lenço demaquilante",
   "categoria": "Cuidados com a pele",
-  "custoCents": 350,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -59,7 +59,7 @@
   "sku": "MAR-008",
   "nome": "Blush 1",
   "categoria": "Maquiagem",
-  "custoCents": 350,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -67,7 +67,7 @@
   "sku": "MAR-009",
   "nome": "Acessórios 1",
   "categoria": "Acessórios",
-  "custoCents": 200,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -75,7 +75,7 @@
   "sku": "MAR-010",
   "nome": "Acessórios 2",
   "categoria": "Acessórios",
-  "custoCents": 350,
+  "custoCents": 0,
   "precoCents": 1000,
   "estoque": 400
  },
@@ -83,7 +83,7 @@
   "sku": "MAR-011",
   "nome": "Rímel",
   "categoria": "Maquiagem",
-  "custoCents": 470,
+  "custoCents": 0,
   "precoCents": 1500,
   "estoque": 400
  },
@@ -91,7 +91,7 @@
   "sku": "MAR-012",
   "nome": "Esfoliante corporal",
   "categoria": "Cuidados com a pele",
-  "custoCents": 670,
+  "custoCents": 0,
   "precoCents": 1500,
   "estoque": 400
  },
@@ -99,7 +99,7 @@
   "sku": "MAR-013",
   "nome": "Esfoliante facial",
   "categoria": "Cuidados com a pele",
-  "custoCents": 550,
+  "custoCents": 0,
   "precoCents": 1500,
   "estoque": 400
  },
@@ -107,7 +107,7 @@
   "sku": "MAR-014",
   "nome": "Hidratante",
   "categoria": "Cuidados com a pele",
-  "custoCents": 600,
+  "custoCents": 0,
   "precoCents": 1500,
   "estoque": 400
  },
@@ -115,7 +115,7 @@
   "sku": "MAR-015",
   "nome": "Paleta de sombras",
   "categoria": "Maquiagem",
-  "custoCents": 470,
+  "custoCents": 0,
   "precoCents": 1500,
   "estoque": 400
  },
@@ -123,7 +123,7 @@
   "sku": "MAR-016",
   "nome": "Blush 2",
   "categoria": "Maquiagem",
-  "custoCents": 470,
+  "custoCents": 0,
   "precoCents": 1500,
   "estoque": 400
  },
@@ -131,7 +131,7 @@
   "sku": "MAR-017",
   "nome": "Óculos",
   "categoria": "Óculos",
-  "custoCents": 500,
+  "custoCents": 0,
   "precoCents": 2000,
   "estoque": 400
  }

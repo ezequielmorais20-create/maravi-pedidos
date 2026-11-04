@@ -150,7 +150,7 @@ Hash scrypt · sessões com cookie httpOnly/SameSite=Lax (+ verificação de Ori
 
 
 ## Produtos reais
-`server/data/produtos-maravi.json` vem da planilha de cadastro e precificação (17 produtos, custo e venda). `npm run import-products -w server` cadastra tudo como **publicado**; SKU já existente é ignorado, então pode repetir sem risco. Todos os produtos entram com **400 unidades** em estoque (ajuste pelo Painel → Estoque). As categorias (Maquiagem, Acessórios, Cuidados com a pele, Óculos) foram inferidas pelo nome do produto; ajuste no painel se precisar. O custo é informação financeira e só aparece para quem tem a permissão de ver custos (Administrador).
+`server/data/produtos-maravi.json` vem da planilha de cadastro e precificação (17 produtos, custo e venda). `npm run import-products -w server` cadastra tudo como **publicado**; SKU já existente é ignorado, então pode repetir sem risco. Todos os produtos entram com **400 unidades** em estoque (ajuste pelo Painel → Estoque). As categorias (Maquiagem, Acessórios, Cuidados com a pele, Óculos) foram inferidas pelo nome do produto; ajuste no painel se precisar. O custo vem zerado no repositório (lance os custos pelo painel de Produtos). O custo é informação financeira e só aparece para quem tem a permissão de ver custos (Administrador).
 
 
 ## Banco de dados em um único arquivo
