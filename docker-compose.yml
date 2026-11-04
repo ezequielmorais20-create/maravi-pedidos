@@ -1,0 +1,16 @@
+# PostgreSQL local para desenvolvimento. Uso: docker compose up -d
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: maravi
+      POSTGRES_PASSWORD: maravi_dev
+      POSTGRES_DB: maravi_dev
+    ports: ["5432:5432"]
+    volumes: ["maravi_pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maravi -d maravi_dev"]
+      interval: 5s
+      retries: 10
+volumes:
+  maravi_pg:

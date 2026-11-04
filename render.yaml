@@ -1,0 +1,38 @@
+# Blueprint do Render (render.com): cria o banco PostgreSQL e o serviço web.
+# Uso: suba o projeto no GitHub -> Render -> New -> Blueprint -> escolha o repositório.
+databases:
+  - name: maravi-db
+    plan: basic-256mb
+    databaseName: maravi
+    user: maravi
+
+services:
+  - type: web
+    name: maravi-pedidos
+    runtime: node
+    plan: starter
+    buildCommand: npm install --include=dev && npm run build
+    preDeployCommand: npm run db:migrate
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: APP_ENV
+        value: producao
+      - key: PIX_MODE
+        value: desabilitado        # sem forma de pagamento por enquanto
+      - key: TRUST_PROXY
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase: { name: maravi-db, property: connectionString }
+      - key: PIX_WEBHOOK_SECRET
+        generateValue: true
+      - key: APP_URL
+        sync: false                # preencher com https://<seu-servico>.onrender.com
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+    disk:
+      name: uploads
+      mountPath: /var/data
+      sizeGB: 1

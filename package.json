@@ -1,0 +1,19 @@
+{
+  "name": "maravi-pedidos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MARAVI Pedidos — loja virtual (PWA) e painel da equipe da MARAVI Achadinhos e Variedades",
+  "engines": { "node": ">=20.12" },
+  "workspaces": ["server", "web"],
+  "scripts": {
+    "db:migrate": "npm run migrate -w server",
+    "create-user": "npm run create-user -w server",
+    "db:seed": "npm run seed -w server",
+    "dev": "npm run dev -w server",
+    "dev:web": "npm run dev -w web",
+    "build": "npm run build -w web && npm run build -w server",
+    "start": "npm run start -w server",
+    "test": "npm run test -w server",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w web"
+  }
+}
