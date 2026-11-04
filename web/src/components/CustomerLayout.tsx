@@ -10,7 +10,7 @@ export default function CustomerLayout() {
     <>
       <header className="topbar">
         <div className="in">
-          <Link to="/"><img src="/logo-maravi.png" alt="MARAVI — Achadinhos e Variedades" /></Link>
+          <Link to="/"><img src="/logo-original.png" alt="MARAVI — Achadinhos e Variedades" /></Link>
           <span className="sp" />
           {isStaff && <Link className="btn sm sec" to="/painel">Painel</Link>}
         </div>

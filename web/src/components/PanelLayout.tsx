@@ -20,7 +20,7 @@ export default function PanelLayout() {
   return (
     <div className="pnl">
       <nav aria-label="Painel">
-        <img src="/logo-maravi.png" alt="MARAVI" />
+        <img src="/logo-original.png" alt="MARAVI" />
         {ITEMS.filter(([, , p]) => can(p)).map(([to, l]) => <NavLink key={to} to={to} end={to === '/painel'} className={({ isActive }) => (isActive ? 'active' : '')}>{l}</NavLink>)}
         <div className="who" style={{ position: 'absolute', bottom: '1rem', left: '.8rem', right: '.8rem', fontSize: '.8rem' }}>
           <div>{user.name}<br /><span style={{ opacity: .8 }}>{ROLE_LABEL[user.role]}</span></div>
