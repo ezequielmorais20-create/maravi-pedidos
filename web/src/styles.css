@@ -255,3 +255,16 @@ td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
 @media (max-width: 760px) {
   .topbar img { width: 44px; height: 44px; }
 }
+
+
+/* Transição de rota para loja e painel: curta, sutil e sem interferir em movimento reduzido. */
+.page-transition {
+  animation: maravi-page-enter 240ms cubic-bezier(.2,.72,.25,1) both;
+}
+@keyframes maravi-page-enter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-transition { animation: none !important; }
+}

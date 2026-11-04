@@ -1,4 +1,4 @@
-import { Link, NavLink, Navigate, Outlet } from 'react-router-dom';
+import { Link, NavLink, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Loading } from './ui';
 import { useAuth } from '../lib/auth';
 import { ROLE_LABEL } from '../lib/format';
@@ -14,6 +14,7 @@ const ITEMS: [string, string, string][] = [
 ];
 
 export default function PanelLayout() {
+  const location = useLocation();
   const { user, loading, can, logout } = useAuth();
   if (loading) return <Loading />;
   if (!user || user.role === 'cliente') return <Navigate to="/conta?voltar=/painel" replace />;
@@ -27,7 +28,7 @@ export default function PanelLayout() {
           <Link to="/" style={{ display: 'inline', padding: 0, color: '#fbd5e0' }}>Ver loja</Link> · <a href="#" style={{ display: 'inline', padding: 0, color: '#fbd5e0' }} onClick={(e) => { e.preventDefault(); void logout(); }}>Sair</a>
         </div>
       </nav>
-      <main><Outlet /></main>
+      <main><div key={location.pathname} className="page-transition"><Outlet /></div></main>
     </div>
   );
 }
