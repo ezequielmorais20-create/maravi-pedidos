@@ -1,0 +1,15 @@
+Você vai continuar um projeto que já está avançado. Leia primeiro o arquivo LEIA-ME-MANUS.md e depois o README.md dentro de projeto-maravi-pedidos.
+
+PROJETO: MARAVI Pedidos, loja virtual (PWA) e painel de equipe para a MARAVI – Achadinhos e Variedades, de São Luís–MA. Idioma português do Brasil, valores em centavos, fuso America/Fortaleza. Cores #FCE8EF (fundo), #E58BA4 e #741039 (botões vinho). Use a logo oficial em web/public/logo-maravi.png.
+
+O QUE JÁ EXISTE: sistema completo em Node 22 + TypeScript + Fastify + PostgreSQL + React/Vite, com banco, regras de estoque e caixa, perfis (cliente, administrador, atendimento, estoque), pedidos, tela "Todos os pedidos" por data e hora, e uma vitrine estática (vitrine-maravi.html) que envia o pedido em PDF pelo WhatsApp (98) 98506-6724.
+
+O QUE EU QUERO DE VOCÊ, NESTA ORDEM:
+1. Instale as dependências, rode as migrações, o typecheck e os testes (npm test). Esse código nunca rodou de ponta a ponta: corrija os erros que aparecerem e me conte o que corrigiu.
+2. Coloque o sistema COMPLETO no ar com um link público, com banco PostgreSQL persistente. Não use cartão de crédito nem plano pago sem me avisar antes; se precisar de plano pago, me diga o custo e espere eu aprovar.
+3. Cadastre os 17 produtos (npm run import-products -w server, 400 unidades cada) e crie um login de administrador com senha forte que você me entrega no final.
+4. Pagamento: por enquanto SEM Pix automático (PIX_MODE=desabilitado). A cliente paga na retirada ou entrega e envia o comprovante pelo WhatsApp (98) 98506-6724; a equipe confirma o pagamento no painel. Mantenha assim.
+5. Garanta que o painel do administrador mostre todos os pedidos salvos por dia, mês e hora, com itens, quantidades, local de entrega, caixa e estoque.
+6. Me entregue: o link do site, o link do painel (/painel), os logins criados e uma lista curta do que ainda falta.
+
+REGRAS: não invente funcionalidades que eu não pedi; não apague o histórico de pedidos; não coloque senhas, custos de produtos ou chaves no repositório; se algo bloquear (cartão, chave de API, autorização), pare e me peça.
