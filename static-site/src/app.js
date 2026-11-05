@@ -4,6 +4,7 @@ const filters = document.querySelector('#category-filters');
 const resultCount = document.querySelector('#result-count');
 const emptyState = document.querySelector('#empty-state');
 const snapshotDate = document.querySelector('#snapshot-date');
+const whatsappBase = 'https://wa.me/5598985066724';
 
 let products = [];
 let activeCategory = '';
@@ -12,6 +13,12 @@ const money = (cents) => new Intl.NumberFormat('pt-BR', {
   style: 'currency',
   currency: 'BRL',
 }).format(cents / 100);
+
+function whatsappUrl(message) {
+  const url = new URL(whatsappBase);
+  url.searchParams.set('text', message);
+  return url.toString();
+}
 
 function node(tag, className, text) {
   const el = document.createElement(tag);
@@ -55,6 +62,12 @@ function makeProductCard(product) {
   if (product.description) copy.append(node('p', 'product-description', product.description));
   const price = `${product.fromPrice ? 'A partir de ' : ''}${money(product.priceCents)}`;
   copy.append(node('p', 'product-price', price));
+  const orderLink = node('a', 'button button-wine product-order-button', 'Pedir pelo WhatsApp');
+  orderLink.href = whatsappUrl(`Olá, MARAVI! Quero pedir ${product.name} (quantidade: 1; preço de referência na vitrine: ${price}). Podem confirmar disponibilidade e entrega ou retirada?`);
+  orderLink.target = '_blank';
+  orderLink.rel = 'noopener noreferrer';
+  orderLink.setAttribute('aria-label', `Pedir ${product.name} pelo WhatsApp`);
+  copy.append(orderLink);
   card.append(media, copy);
   return card;
 }

@@ -37,6 +37,10 @@ main { width: min(1160px, 100% - 2rem); margin: 1.1rem auto 3rem; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 46px; padding: .75rem 1.1rem; border-radius: 12px; font-weight: 750; text-decoration: none; transition: transform .16s ease, box-shadow .16s ease; }
 .button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.14); }
 .button-light { color: var(--wine); background: white; }
+.button-wine { color: white; background: var(--wine); }
+.button-wine:hover { background: var(--wine-dark); }
+.product-order-button { width: 100%; min-height: 42px; margin-top: .65rem; padding: .55rem .65rem; border-radius: 10px; font-size: .78rem; line-height: 1.25; text-align: center; }
+.product-order-button:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
 .notice { margin: 1rem 0 2.3rem; padding: .9rem 1.1rem; border: 1px dashed var(--pink); border-radius: 15px; color: var(--wine-dark); background: #fff; font-size: .91rem; line-height: 1.6; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .eyebrow-dark { margin-bottom: .4rem; color: #a84b6b; }
