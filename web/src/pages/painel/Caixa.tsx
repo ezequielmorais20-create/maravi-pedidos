@@ -24,22 +24,23 @@ export default function Caixa() {
     <>
       <h1>Caixa</h1>
       <Alert kind="info">Este caixa mostra o <b>movimento líquido registrado pelo app</b>. Ele não é o saldo da conta bancária nem o lucro da loja.</Alert>
-      <div className="card row">
-        <div><label htmlFor="de">De</label><input id="de" type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></div>
-        <div><label htmlFor="ate">Até</label><input id="ate" type="date" value={to} onChange={(e) => setTo(e.target.value)} /></div>
-        <div><label htmlFor="tp">Tipo</label><select id="tp" value={kind} onChange={(e) => setKind(e.target.value)}><option value="">Todos</option>{Object.entries(KIND).map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select></div>
-        <div><label htmlFor="pd">Pedido nº</label><input id="pd" inputMode="numeric" value={order} onChange={(e) => setOrder(e.target.value.replace(/\D/g, ''))} /></div>
-        <a className="btn sec sm" style={{ alignSelf: 'flex-end' }} href={`/api/staff/cash/statement.csv${qs({ ...q, kind, order })}`}>Exportar CSV</a>
+      <div className="card cash-filters">
+        <div className="cash-field cash-date"><label htmlFor="de">De</label><input id="de" type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></div>
+        <div className="cash-field cash-date"><label htmlFor="ate">Até</label><input id="ate" type="date" value={to} onChange={(e) => setTo(e.target.value)} /></div>
+        <div className="cash-field"><label htmlFor="tp">Tipo</label><select id="tp" value={kind} onChange={(e) => setKind(e.target.value)}><option value="">Todos</option>{Object.entries(KIND).map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select></div>
+        <div className="cash-field"><label htmlFor="pd">Pedido nº</label><input id="pd" inputMode="numeric" value={order} onChange={(e) => setOrder(e.target.value.replace(/\D/g, ''))} /></div>
+        <div className="cash-field cash-export"><a className="btn sec" aria-label="Exportar extrato filtrado em CSV" href={`/api/staff/cash/statement.csv${qs({ ...q, kind, order })}`}>Exportar CSV</a></div>
       </div>
+      <h2 className="cash-summary-title">Resumo do período</h2>
       {sum.loading ? <Loading /> : s && (
-        <div className="stats">
-          <div className="stat"><b>{brl(s.recebimentosBrutosCents)}</b>Recebimentos brutos ({s.recebimentosQtd})</div>
-          <div className="stat"><b>{brl(s.freteCents)}</b>do qual frete</div>
-          <div className="stat"><b>{brl(s.descontosCents)}</b>Descontos concedidos</div>
-          <div className="stat"><b>{brl(s.taxasCents)}</b>Taxas do provedor</div>
-          <div className="stat"><b>{brl(s.estornosCents)}</b>Estornos</div>
-          <div className="stat"><b>{brl(s.saidasCents)}</b>Saídas autorizadas</div>
-          <div className="stat" style={{ borderColor: 'var(--vinho)' }}><b>{brl(s.movimentoLiquidoAppCents)}</b>Movimento líquido do app</div>
+        <div className="stats cash-stats" aria-label="Resumo do caixa">
+          <div className="stat cash-stat"><span>Recebimentos brutos <small>({s.recebimentosQtd})</small></span><b>{brl(s.recebimentosBrutosCents)}</b></div>
+          <div className="stat cash-stat"><span>Frete incluído nos recebimentos</span><b>{brl(s.freteCents)}</b></div>
+          <div className="stat cash-stat"><span>Descontos concedidos</span><b>{brl(s.descontosCents)}</b></div>
+          <div className="stat cash-stat"><span>Taxas do provedor</span><b>{brl(s.taxasCents)}</b></div>
+          <div className="stat cash-stat"><span>Estornos</span><b>{brl(s.estornosCents)}</b></div>
+          <div className="stat cash-stat"><span>Saídas autorizadas</span><b>{brl(s.saidasCents)}</b></div>
+          <div className="stat cash-stat cash-net"><span>Movimento líquido do app</span><b>{brl(s.movimentoLiquidoAppCents)}</b></div>
         </div>
       )}
       <h2>Extrato</h2>

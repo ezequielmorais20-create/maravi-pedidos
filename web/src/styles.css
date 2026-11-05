@@ -298,3 +298,71 @@ td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
   font-size: .82rem;
   text-align: center;
 }
+
+
+/* Caixa: filtros e indicadores financeiros responsivos */
+.cash-filters {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .75rem;
+  align-items: end;
+}
+.cash-filters .cash-field { min-width: 0; }
+.cash-filters label { margin: .1rem 0 .35rem; }
+.cash-filters input, .cash-filters select { min-width: 0; }
+.cash-export { display: flex; align-self: stretch; }
+.cash-export .btn { width: 100%; min-height: 46px; white-space: nowrap; }
+.cash-summary-title { margin-top: 1.25rem; }
+.cash-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cash-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: .45rem;
+  min-width: 0;
+  min-height: 108px;
+}
+.cash-stat > span { color: var(--cinza); font-size: .86rem; line-height: 1.35; }
+.cash-stat > span small { font-size: .78rem; }
+.cash-stat > b {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.1vw, 1.8rem);
+  line-height: 1.15;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.cash-net {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 0;
+  padding: 1rem 1.2rem;
+  border: 1.5px solid var(--vinho);
+  background: linear-gradient(110deg, #fff, var(--rosa-claro));
+}
+.cash-net > span { color: var(--vinho); font-size: .96rem; font-weight: 750; }
+.cash-net > b { font-size: clamp(1.55rem, 2.6vw, 2.05rem); }
+
+@media (max-width: 1024px) {
+  .cash-filters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cash-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .cash-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+  .cash-filters input[type="date"] { padding: .68rem .55rem; font-size: 1rem; }
+  .cash-export { grid-column: 1 / -1; }
+  .cash-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+  .cash-stat { min-height: 100px; padding: .82rem; }
+  .cash-stat > b { font-size: clamp(1.15rem, 4.7vw, 1.55rem); }
+  .cash-net { grid-column: 1 / -1; min-height: 0; padding: 1rem; }
+  .cash-net > b { font-size: clamp(1.35rem, 5.5vw, 1.8rem); }
+}
+@media (max-width: 420px) {
+  .cash-filters .cash-date { grid-column: 1 / -1; }
+}
+@media (max-width: 380px) {
+  .cash-stat { min-height: 92px; padding: .7rem; }
+  .cash-stat > b { font-size: 1.14rem; }
+}
