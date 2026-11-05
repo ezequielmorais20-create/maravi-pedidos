@@ -15,7 +15,7 @@ for (const name of ['index.html', 'styles.css', 'app.js', 'catalog.json']) {
 }
 
 await copyFile(join(publicDir, 'logo-original.png'), join(outputDir, 'assets', 'logo-original.png'));
-await cp(join(publicDir, 'products'), join(outputDir, 'products'), { recursive: true });
+await cp(join(sourceDir, 'products'), join(outputDir, 'products'), { recursive: true });
 await copyFile(join(publicDir, 'products', 'CREDITS.md'), join(outputDir, 'CREDITS.md'));
 
 const catalog = JSON.parse(await readFile(join(sourceDir, 'catalog.json'), 'utf8'));
