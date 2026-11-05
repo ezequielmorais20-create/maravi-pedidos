@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FCE8EF" />
+    <meta name="description" content="Vitrine informativa MARAVI — achadinhos e variedades em São Luís, Maranhão." />
+    <title>MARAVI — Achadinhos e Variedades</title>
+    <link rel="icon" href="/assets/logo-original.png" type="image/png" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#topo" aria-label="MARAVI — início">
+        <img src="/assets/logo-original.png" alt="Logo redonda da MARAVI" />
+        <span><strong>MARAVI</strong><small>Achadinhos e Variedades</small></span>
+      </a>
+      <a class="header-contact" href="https://wa.me/5598985066724" target="_blank" rel="noopener noreferrer">Fale com a loja</a>
+    </header>
+
+    <main id="topo">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">São Luís · Maranhão</p>
+          <h1 id="hero-title">Pequenos achados,<br />um toque especial no seu dia.</h1>
+          <p class="hero-text">Maquiagem, cuidados pessoais, acessórios e muito mais para você descobrir.</p>
+          <a class="button button-light" href="#produtos">Explorar catálogo <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><span>MARAVI</span></div>
+      </section>
+
+      <aside class="notice" aria-label="Aviso sobre este catálogo">
+        <strong>Vitrine informativa:</strong> esta versão não registra pedidos nem atualiza o estoque em tempo real. Preços e disponibilidade podem mudar; confirme com a loja antes da compra.
+      </aside>
+
+      <section id="produtos" class="catalog-section" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow eyebrow-dark">Escolhas MARAVI</p>
+            <h2 id="catalog-title">Nosso catálogo</h2>
+          </div>
+          <p id="snapshot-date" class="snapshot-date"></p>
+        </div>
+
+        <div class="catalog-tools">
+          <label class="search-box" for="product-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="product-search" type="search" placeholder="Buscar um achadinho" autocomplete="off" />
+          </label>
+          <div id="category-filters" class="category-filters" aria-label="Filtrar por categoria"></div>
+        </div>
+
+        <p id="result-count" class="result-count" aria-live="polite"></p>
+        <div id="product-grid" class="product-grid" aria-live="polite"></div>
+        <p id="empty-state" class="empty-state" hidden>Nenhum produto encontrado. Tente outra busca ou categoria.</p>
+        <p class="photo-note">As fotos são referências ilustrativas; cor, modelo e embalagem podem variar do produto disponível.</p>
+      </section>
+
+      <section id="contato" class="contact-card" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow eyebrow-light">Atendimento MARAVI</p>
+          <h2 id="contact-title">Quer confirmar um produto?</h2>
+          <p>Converse diretamente com a loja para confirmar preço e disponibilidade.</p>
+        </div>
+        <a class="button button-light" href="https://wa.me/5598985066724" target="_blank" rel="noopener noreferrer">WhatsApp da loja <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>MARAVI · Achadinhos e Variedades · São Luís–MA</span>
+      <a href="/CREDITS.md">Créditos das fotografias</a>
+      <small>Catálogo estático. Não possui login, painel administrativo, caixa ou controle de estoque.</small>
+    </footer>
+  </body>
+</html>

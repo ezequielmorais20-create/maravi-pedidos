@@ -1,0 +1,141 @@
+{
+  "snapshotDate": "2026-11-05",
+  "products": [
+    {
+      "name": "Acessórios 1",
+      "category": "Acessórios",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-009.webp"
+    },
+    {
+      "name": "Acessórios 2",
+      "category": "Acessórios",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-010.webp"
+    },
+    {
+      "name": "Blush 1",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-008.webp"
+    },
+    {
+      "name": "Blush 2",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1500,
+      "fromPrice": false,
+      "image": "/products/MAR-016.webp"
+    },
+    {
+      "name": "Esfoliante corporal",
+      "category": "Cuidados com a pele",
+      "description": "",
+      "priceCents": 1500,
+      "fromPrice": false,
+      "image": "/products/MAR-012.webp"
+    },
+    {
+      "name": "Esfoliante facial",
+      "category": "Cuidados com a pele",
+      "description": "",
+      "priceCents": 1500,
+      "fromPrice": false,
+      "image": "/products/MAR-013.webp"
+    },
+    {
+      "name": "Gloss 1",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-003.webp"
+    },
+    {
+      "name": "Gloss 2",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-004.webp"
+    },
+    {
+      "name": "Gloss 3",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-005.webp"
+    },
+    {
+      "name": "Hidratante",
+      "category": "Cuidados com a pele",
+      "description": "",
+      "priceCents": 1500,
+      "fromPrice": false,
+      "image": "/products/MAR-014.webp"
+    },
+    {
+      "name": "Lenço demaquilante",
+      "category": "Cuidados com a pele",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-007.webp"
+    },
+    {
+      "name": "Paleta de sombras",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1500,
+      "fromPrice": false,
+      "image": "/products/MAR-015.webp"
+    },
+    {
+      "name": "Piranha de cabelo",
+      "category": "Acessórios",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-001.webp"
+    },
+    {
+      "name": "Prendedor de cabelo",
+      "category": "Acessórios",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-006.webp"
+    },
+    {
+      "name": "Pó solto de banana",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1000,
+      "fromPrice": false,
+      "image": "/products/MAR-002.webp"
+    },
+    {
+      "name": "Rímel",
+      "category": "Maquiagem",
+      "description": "",
+      "priceCents": 1500,
+      "fromPrice": false,
+      "image": "/products/MAR-011.webp"
+    },
+    {
+      "name": "Óculos",
+      "category": "Óculos",
+      "description": "",
+      "priceCents": 2000,
+      "fromPrice": false,
+      "image": "/products/MAR-017.webp"
+    }
+  ]
+}
