@@ -10,14 +10,14 @@ export default function Visao() {
   if (r.loading) return <Loading />;
   const d = r.data;
   if (!d) return <Alert>{r.error}</Alert>;
-  const S = ({ l, v, to, warn }: { l: string; v: any; to?: string; warn?: boolean }) => {
-    const inner = <div className="stat" style={warn && v > 0 ? { borderColor: 'var(--alerta)' } : undefined}><b>{v}</b>{l}</div>;
+  const S = ({ l, v, to, warn, financial }: { l: string; v: any; to?: string; warn?: boolean; financial?: boolean }) => {
+    const inner = <div className={`stat overview-stat${financial ? ' overview-financial' : ''}`} style={warn && v > 0 ? { borderColor: 'var(--alerta)' } : undefined}><b>{v}</b>{l}</div>;
     return to ? <Link to={to} style={{ textDecoration: 'none', color: 'inherit' }}>{inner}</Link> : inner;
   };
   return (
     <>
       <h1>Visão geral</h1>
-      <div className="stats">
+      <div className="stats overview-stats">
         <S l="Na fila de separação" v={d.naFila} to="/painel/fila" />
         <S l="Em separação" v={d.emSeparacao} to="/painel/fila" />
         <S l="Prontos / em rota" v={d.prontosOuEmRota} to="/painel/fila" />
@@ -31,9 +31,9 @@ export default function Visao() {
       {d.recebimentosHojeCents !== undefined && (
         <>
           <h2>Hoje (caixa do app)</h2>
-          <div className="stats">
-            <S l="Recebimentos Pix brutos" v={brl(d.recebimentosHojeCents)} />
-            <S l="Movimento líquido do app" v={brl(d.movimentoLiquidoHojeCents)} />
+          <div className="stats overview-stats overview-financials">
+            <S l="Recebimentos Pix brutos" v={brl(d.recebimentosHojeCents)} financial />
+            <S l="Movimento líquido do app" v={brl(d.movimentoLiquidoHojeCents)} financial />
           </div>
           <p className="muted">Movimento líquido do app = recebimentos − taxas − estornos − saídas registradas aqui. Não é saldo bancário nem lucro.</p>
         </>

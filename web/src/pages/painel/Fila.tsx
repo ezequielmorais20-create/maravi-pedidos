@@ -27,7 +27,7 @@ export default function Fila() {
       {view === 'fila' && <p className="muted">Ordem: horário em que o banco confirmou o Pix (mais antigo primeiro) — não a ordem de criação do pedido.</p>}
       {r.error && <Alert>{r.error}</Alert>}
       {r.loading ? <Loading /> : (
-        <div className="table-wrap"><table>
+        <div className="table-wrap panel-table-scroll" role="region" tabIndex={0} aria-label="Fila de pedidos; deslize horizontalmente para consultar todas as colunas"><table className="panel-table-wide">
           <thead><tr>{view === 'fila' && <th>#</th>}<th>Pedido</th><th>Cliente</th><th>Itens</th><th>Entrega</th><th>{view === 'aguardando' ? 'Reserva até' : 'Pago às'}</th><th>Status</th><th /></tr></thead>
           <tbody>
             {r.data?.items.length === 0 && <tr><td colSpan={8} className="muted center">Nada por aqui.</td></tr>}
@@ -72,30 +72,30 @@ function OrderDetail({ id, onChanged }: { id: string; onChanged: () => void }) {
     : [10, 11].includes(phoneDigits.length) ? `55${phoneDigits}` : '';
   const waMessage = `Olá, ${o.customerName}! Conferimos seu pedido #${o.number} da MARAVI. Total: ${brl(o.totalCents)}. Seguem os dados para pagamento via Pix: `;
   return (
-    <div className="card mt">
-      <div className="row sb"><h2 style={{ margin: 0 }}>Pedido #{o.number}</h2><span><PayTag s={o.paymentStatus} /> <FulTag s={o.fulfillmentStatus} /></span></div>
+    <div className="card mt order-detail">
+      <div className="row sb order-detail-header"><h2 style={{ margin: 0 }}>Pedido #{o.number}</h2><span><PayTag s={o.paymentStatus} /> <FulTag s={o.fulfillmentStatus} /></span></div>
       {msg && <Alert kind={msg.k}>{msg.t}</Alert>}
       {o.customerName && <p><b>{o.customerName}</b>{o.customerPhone ? ` · ${o.customerPhone}` : ''}{o.customerEmail ? ` · ${o.customerEmail}` : ''}</p>}
       {o.deliveryMode === 'entrega' && o.address && <p>Entrega: {o.address.recipient} — {o.address.street}, {o.address.number}{o.address.complement ? ` (${o.address.complement})` : ''} · {o.address.neighborhood}{o.address.reference ? ` · Ref.: ${o.address.reference}` : ''}</p>}
       {o.deliveryMode === 'retirada' && <p>Retirada na loja.</p>}
       {o.analysisReason && <Alert kind="warn">Em análise: {o.analysisReason}</Alert>}
       {openEx.map((e: any) => <Alert key={e.id} kind="err">Exceção aberta — {e.productName} ({e.sku}), {e.quantity} un.: {e.note}. A expedição fica bloqueada até repor o estoque ou estornar.</Alert>)}
-      <table><tbody>{o.items.map((i: any) => <tr key={i.id}><td>{i.quantity}×</td><td>{i.productName}{i.variantName !== 'Único' ? ` (${i.variantName})` : ''} <span className="muted">{i.skuCode}</span></td>{i.lineTotalCents !== undefined && <td className="n">{brl(i.lineTotalCents)}</td>}</tr>)}</tbody></table>
+      <div className="table-wrap panel-table-scroll order-items-scroll" role="region" tabIndex={0} aria-label="Itens do pedido; deslize horizontalmente para consultar nomes, SKUs e valores"><table className="panel-table-items"><tbody>{o.items.map((i: any) => <tr key={i.id}><td>{i.quantity}×</td><td>{i.productName}{i.variantName !== 'Único' ? ` (${i.variantName})` : ''} <span className="muted">{i.skuCode}</span></td>{i.lineTotalCents !== undefined && <td className="n">{brl(i.lineTotalCents)}</td>}</tr>)}</tbody></table></div>
       {o.totalCents !== undefined && <p>Subtotal {brl(o.subtotalCents)} · Desconto {brl(o.discountCents)} · Frete {brl(o.shippingCents)} · <b>Total {brl(o.totalCents)}</b></p>}
       {o.paymentStatus === 'pendente' && o.paymentMethod === 'local' && <Alert kind="info">Pedido aguardando pagamento manual. Confira os itens, a disponibilidade e o total; envie a chave ou o link Pix pelo WhatsApp. Confirme abaixo somente depois de verificar o recebimento.</Alert>}
       {can('orders.review') && o.paymentStatus === 'pendente' && o.paymentMethod === 'local' && (waNumber ? <div className="mt"><a className="btn sec" target="_blank" rel="noopener noreferrer" href={`https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`}>Preparar mensagem de Pix no WhatsApp</a><p className="muted">O WhatsApp abrirá um rascunho. Confira o valor, inclua a chave ou o link Pix e toque em enviar.</p></div> : <Alert kind="warn">Não há telefone/WhatsApp válido no cadastro da cliente. Solicite o contato antes de enviar os dados do Pix.</Alert>)}
       {o.payment && o.payment.method !== 'pix' && <p className="muted">Pago em {{ dinheiro: 'dinheiro', cartao: 'cartão', pix_loja: 'Pix direto na conta da loja', outro: 'outra forma' }[o.payment.method as string]} · confirmado por {o.payment.confirmedByName} em {dt(o.payment.settledAt)}</p>}
       {o.payment && o.payment.method === 'pix' && <p className="muted">Pix liquidado em {dt(o.payment.settledAt)} (recebido pelo app em {dt(o.payment.receivedAt)}) · cobrança {o.payment.providerChargeId}{o.payment.simulated ? ' · SIMULADO' : ''}</p>}
       {(o.refunds ?? []).map((f: any) => <p key={f.id} className="muted">Estorno {brl(f.amountCents)} — {f.status} — {f.reason}</p>)}
-      <div className="row">
+      <div className="row order-actions">
         {can('orders.advance') && (NEXT[o.fulfillmentStatus] ?? []).filter(([to]) => !(to === 'saiu_entrega' && o.deliveryMode !== 'entrega') && !(to === 'pronto_retirada' && o.deliveryMode !== 'retirada')).map(([to, l]) => <button key={to} className="btn" disabled={busy || openEx.length > 0} onClick={() => act(() => post(`/api/staff/orders/${id}/advance`, { to }), 'Status atualizado.')}>{l}</button>)}
         {can('orders.confirm_payment') && o.paymentStatus === 'pendente' && o.paymentMethod === 'local' && (
-          <span className="row">
-            <select value={pmethod} onChange={(e) => setPmethod(e.target.value)} aria-label="Forma de pagamento recebida" style={{ width: 'auto' }}>
+          <div className="order-payment-controls">
+            <select className="order-payment-method" value={pmethod} onChange={(e) => setPmethod(e.target.value)} aria-label="Forma de pagamento recebida">
               <option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option><option value="pix_loja">Pix direto na conta da loja</option><option value="outro">Outra forma</option>
             </select>
             <button className="btn" disabled={busy} onClick={() => { if (confirm(`Confirmar que recebeu ${brl(o.totalCents)} deste pedido?`)) void act(() => post(`/api/staff/orders/${id}/confirm-payment`, { method: pmethod }), 'Pagamento confirmado. O pedido entrou na fila.'); }}>Confirmar pagamento recebido</button>
-          </span>
+          </div>
         )}
         {can('orders.review') && o.fulfillmentStatus === 'em_analise' && <button className="btn" disabled={busy} onClick={() => act(() => post(`/api/staff/orders/${id}/release`), 'Liberado para separação.')}>Liberar para separação (estoque garantido)</button>}
         {can('orders.review') && o.paymentStatus === 'pendente' && <button className="btn sec" disabled={busy} onClick={() => { if (confirm('Cancelar pedido não pago e liberar a reserva?')) void act(() => post(`/api/staff/orders/${id}/cancel`), 'Pedido cancelado.'); }}>Cancelar (não pago)</button>}

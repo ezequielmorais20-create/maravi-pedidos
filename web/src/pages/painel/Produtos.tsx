@@ -25,12 +25,12 @@ export default function Produtos() {
     <>
       <div className="row sb"><h1>Produtos</h1>{canEdit && <button className="btn" onClick={() => setEdit({ ...blank, categoryId: cats.data?.items[0]?.id ?? 0 })}>Novo produto</button>}</div>
       {msg && <Alert kind={msg.k}>{msg.t}</Alert>}
-      <div className="card row">
-        <div style={{ flex: 1, minWidth: 180 }}><label htmlFor="pq">Buscar</label><input id="pq" onBlur={(e) => setQ(e.target.value.trim())} /></div>
-        <div><label htmlFor="ps">Situação</label><select id="ps" value={status} onChange={(e) => setStatus(e.target.value)}><option value="">Todas</option><option value="publicado">Publicado</option><option value="rascunho">Rascunho</option><option value="arquivado">Arquivado</option></select></div>
+      <div className="card product-filters">
+        <div className="product-filter-field"><label htmlFor="pq">Buscar</label><input id="pq" onBlur={(e) => setQ(e.target.value.trim())} /></div>
+        <div className="product-filter-field"><label htmlFor="ps">Situação</label><select id="ps" value={status} onChange={(e) => setStatus(e.target.value)}><option value="">Todas</option><option value="publicado">Publicado</option><option value="rascunho">Rascunho</option><option value="arquivado">Arquivado</option></select></div>
       </div>
       {list.loading ? <Loading /> : (
-        <div className="table-wrap"><table>
+        <div className="table-wrap panel-table-scroll" role="region" tabIndex={0} aria-label="Produtos cadastrados; deslize horizontalmente para consultar todas as colunas"><table className="panel-table-products">
           <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th className="n">Disponível</th><th>Situação</th><th /></tr></thead>
           <tbody>{list.data?.items.map((p: any) => <tr key={p.id}><td>{p.name}</td><td>{p.category}</td><td>{p.minPriceCents != null ? brl(p.minPriceCents) : '—'}</td><td className="n">{p.availableTotal ?? '—'}</td><td><span className={`tag ${p.status === 'publicado' ? 'ok' : ''}`}>{p.status}</span></td><td>{canEdit && <button className="btn sm sec" onClick={() => void open(p.id)}>Editar</button>}</td></tr>)}</tbody>
         </table></div>
@@ -61,36 +61,36 @@ function ProductForm({ init, cats, showCost, onSaved, onCancel }: { init: typeof
     } catch (x) { setErr(errMsg(x)); } finally { setBusy(false); }
   }
   return (
-    <form className="card mt" onSubmit={submit}>
+    <form className="card mt product-form" onSubmit={submit}>
       <h2>{p.id ? 'Editar produto' : 'Novo produto'}</h2>
       {err && <Alert>{err}</Alert>}
       <label htmlFor="fn">Nome</label><input id="fn" required value={p.name} onChange={(e) => setP({ ...p, name: e.target.value })} />
       <label htmlFor="fd">Descrição</label><textarea id="fd" rows={3} value={p.description} onChange={(e) => setP({ ...p, description: e.target.value })} />
-      <div className="row">
+      <div className="row product-meta-fields">
         <div style={{ flex: 1 }}><label htmlFor="fc">Categoria</label><select id="fc" value={p.categoryId} onChange={(e) => setP({ ...p, categoryId: Number(e.target.value) })}>{cats.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
         <div style={{ flex: 1 }}><label htmlFor="fs">Situação</label><select id="fs" value={p.status} onChange={(e) => setP({ ...p, status: e.target.value })}><option value="rascunho">Rascunho</option><option value="publicado">Publicado</option><option value="arquivado">Arquivado</option></select></div>
       </div>
       <label htmlFor="fi">Fotos (PNG, JPG ou WEBP até 4 MB)</label>
       <input id="fi" type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => { if (e.target.files?.[0]) void upload(e.target.files[0]); e.target.value = ''; }} />
-      <div className="row mt">{p.images.map((u, i) => <span key={u} style={{ position: 'relative' }}><img src={u} alt={`Foto ${i + 1}`} width={64} height={64} style={{ borderRadius: 8, objectFit: 'cover' }} /><button type="button" className="btn sm sec" onClick={() => setP({ ...p, images: p.images.filter((x) => x !== u) })}>×</button></span>)}</div>
+      <div className="row mt product-images">{p.images.map((u, i) => <span key={u} className="product-image-item"><img src={u} alt={`Foto ${i + 1}`} width={64} height={64} style={{ borderRadius: 8, objectFit: 'cover' }} /><button type="button" className="btn sm sec product-image-remove" aria-label={`Remover foto ${i + 1}`} onClick={() => setP({ ...p, images: p.images.filter((x) => x !== u) })}>×</button></span>)}</div>
       <h3>Variações (SKU)</h3>
       {p.skus.map((s, i) => (
-        <div key={i} className="card" style={{ background: 'var(--rosa-claro)' }}>
-          <div className="row">
-            <div><label>SKU</label><input required value={s.sku} onChange={(e) => setSku(i, 'sku', e.target.value)} /></div>
-            <div><label>Variação</label><input value={s.variantName} onChange={(e) => setSku(i, 'variantName', e.target.value)} /></div>
-            <div><label>Preço (R$)</label><input required inputMode="decimal" value={s.price} onChange={(e) => setSku(i, 'price', e.target.value)} /></div>
-            {showCost && <div><label>Custo (R$)</label><input inputMode="decimal" value={s.cost} onChange={(e) => setSku(i, 'cost', e.target.value)} /></div>}
-            <div><label>Estoque mínimo</label><input type="number" min={0} value={s.minStock} onChange={(e) => setSku(i, 'minStock', e.target.value)} /></div>
-            {!s.id && <div><label>Estoque inicial</label><input type="number" min={0} value={s.initialStock} onChange={(e) => setSku(i, 'initialStock', e.target.value)} /></div>}
+        <div key={i} className="card product-sku-card" style={{ background: 'var(--rosa-claro)' }}>
+          <div className="row product-sku-fields">
+            <div className="product-sku-field"><label htmlFor={`sku-${i}`}>SKU</label><input id={`sku-${i}`} required value={s.sku} onChange={(e) => setSku(i, 'sku', e.target.value)} /></div>
+            <div className="product-sku-field"><label htmlFor={`variant-${i}`}>Variação</label><input id={`variant-${i}`} value={s.variantName} onChange={(e) => setSku(i, 'variantName', e.target.value)} /></div>
+            <div className="product-sku-field"><label htmlFor={`price-${i}`}>Preço (R$)</label><input id={`price-${i}`} required inputMode="decimal" value={s.price} onChange={(e) => setSku(i, 'price', e.target.value)} /></div>
+            {showCost && <div className="product-sku-field"><label htmlFor={`cost-${i}`}>Custo (R$)</label><input id={`cost-${i}`} inputMode="decimal" value={s.cost} onChange={(e) => setSku(i, 'cost', e.target.value)} /></div>}
+            <div className="product-sku-field"><label htmlFor={`min-stock-${i}`}>Estoque mínimo</label><input id={`min-stock-${i}`} type="number" min={0} value={s.minStock} onChange={(e) => setSku(i, 'minStock', e.target.value)} /></div>
+            {!s.id && <div className="product-sku-field"><label htmlFor={`initial-stock-${i}`}>Estoque inicial</label><input id={`initial-stock-${i}`} type="number" min={0} value={s.initialStock} onChange={(e) => setSku(i, 'initialStock', e.target.value)} /></div>}
           </div>
-          <label><input type="checkbox" checked={s.active} onChange={(e) => setSku(i, 'active', e.target.checked)} /> Ativa</label>
+          <label className="product-active"><input type="checkbox" checked={s.active} onChange={(e) => setSku(i, 'active', e.target.checked)} /> Ativa</label>
           {!s.id && p.skus.length > 1 && <button type="button" className="btn sm sec" onClick={() => setP({ ...p, skus: p.skus.filter((_, j) => j !== i) })}>Remover variação</button>}
         </div>
       ))}
       <button type="button" className="btn sec sm" onClick={() => setP({ ...p, skus: [...p.skus, { ...blank.skus[0]!, sku: '' }] })}>+ Variação</button>
       <p className="muted">O preço muda só para pedidos futuros; pedidos já feitos mantêm o preço da compra. Estoque depois de criado só muda em Estoque (com motivo).</p>
-      <div className="row mt"><button className="btn" disabled={busy}>{busy ? 'Salvando…' : 'Salvar'}</button><button type="button" className="btn sec" onClick={onCancel}>Cancelar</button></div>
+      <div className="row mt product-form-actions"><button className="btn" disabled={busy}>{busy ? 'Salvando…' : 'Salvar'}</button><button type="button" className="btn sec" onClick={onCancel}>Cancelar</button></div>
     </form>
   );
 }

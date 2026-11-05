@@ -24,12 +24,16 @@ export default function Pedidos() {
     <>
       <h1>Todos os pedidos</h1>
       <p className="muted">Todos os pedidos ficam salvos, em qualquer situação (pagos, aguardando, cancelados ou expirados), do mais recente ao mais antigo, com dia, mês e hora.</p>
-      <div className="row" style={{ display: 'flex', gap: '.6rem', flexWrap: 'wrap', alignItems: 'end', margin: '.6rem 0' }}>
-        <label>De<input type="date" value={from} max={to} onChange={(e) => e.target.value && setFrom(e.target.value)} /></label>
-        <label>Até<input type="date" value={to} min={from} max={hoje} onChange={(e) => e.target.value && setTo(e.target.value)} /></label>
-        <button className="btn sm sec" onClick={() => { setFrom(hoje); setTo(hoje); }}>Hoje</button>
-        <button className="btn sm sec" onClick={() => { setFrom(somaDias(hoje, -6)); setTo(hoje); }}>7 dias</button>
-        <button className="btn sm sec" onClick={() => { setFrom(somaDias(hoje, -29)); setTo(hoje); }}>30 dias</button>
+      <div className="orders-filters">
+        <div className="orders-date-range">
+          <label className="orders-date-field">De<input type="date" value={from} max={to} onChange={(e) => e.target.value && setFrom(e.target.value)} /></label>
+          <label className="orders-date-field">Até<input type="date" value={to} min={from} max={hoje} onChange={(e) => e.target.value && setTo(e.target.value)} /></label>
+        </div>
+        <div className="orders-presets">
+          <button className="btn sm sec" onClick={() => { setFrom(hoje); setTo(hoje); }}>Hoje</button>
+          <button className="btn sm sec" onClick={() => { setFrom(somaDias(hoje, -6)); setTo(hoje); }}>7 dias</button>
+          <button className="btn sm sec" onClick={() => { setFrom(somaDias(hoje, -29)); setTo(hoje); }}>30 dias</button>
+        </div>
       </div>
       {r.error && <Alert>{r.error}</Alert>}
       {r.loading ? <Loading /> : (
@@ -37,9 +41,9 @@ export default function Pedidos() {
           <p><b>{items.length}</b> pedido(s) no período{r.data?.items?.[0]?.totalCents !== undefined && <> · pagos: <b>{brl(totalPagos)}</b></>}</p>
           {items.length === 0 && <p className="muted">Nenhum pedido neste período.</p>}
           {[...grupos.entries()].map(([dia, os]) => (
-            <section key={dia} style={{ marginBottom: '1.2rem' }}>
+            <section key={dia} className="orders-day" style={{ marginBottom: '1.2rem' }}>
               <h2 style={{ textTransform: 'capitalize' }}>{diaLabel(dia)} <span className="muted" style={{ fontSize: '.8em' }}>· {os.length} pedido(s)</span></h2>
-              <div className="table-wrap"><table>
+              <div className="table-wrap panel-table-scroll" role="region" tabIndex={0} aria-label={`Pedidos de ${dia}; deslize horizontalmente para consultar todas as colunas`}><table className="panel-table-wide">
                 <thead><tr><th>Hora</th><th>Pedido</th><th>Cliente</th><th>Itens</th><th>Entrega</th><th>Total</th><th>Status</th></tr></thead>
                 <tbody>
                   {os.map((o) => (
