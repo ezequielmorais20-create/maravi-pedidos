@@ -4,8 +4,9 @@ from PIL import Image, ImageOps
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "web" / "public" / "products"
 DESTINATION = ROOT / "static-site" / "src" / "products"
-MAX_DIMENSION = 960
+CANVAS_SIZE = 960
 QUALITY = 78
+BACKGROUND = (255, 248, 250)
 
 DESTINATION.mkdir(parents=True, exist_ok=True)
 original_bytes = 0
@@ -18,20 +19,40 @@ for source_path in sorted(SOURCE.glob("MAR-*.webp")):
         image = ImageOps.exif_transpose(original)
         has_alpha = "A" in image.getbands() or "transparency" in image.info
         image = image.convert("RGBA" if has_alpha else "RGB")
-        image.thumbnail((MAX_DIMENSION, MAX_DIMENSION), Image.Resampling.LANCZOS)
-        options = {"format": "WEBP", "quality": QUALITY, "method": 6}
+        image = ImageOps.contain(
+            image,
+            (CANVAS_SIZE, CANVAS_SIZE),
+            method=Image.Resampling.LANCZOS,
+        )
+
+        x = (CANVAS_SIZE - image.width) // 2
+        y = (CANVAS_SIZE - image.height) // 2
         if has_alpha:
-            options["alpha_quality"] = 100
-        image.save(DESTINATION / source_path.name, **options)
-    optimized_bytes += (DESTINATION / source_path.name).stat().st_size
+            canvas = Image.new("RGBA", (CANVAS_SIZE, CANVAS_SIZE), (0, 0, 0, 0))
+            canvas.paste(image, (x, y), image)
+            options = {
+                "format": "WEBP",
+                "quality": QUALITY,
+                "method": 6,
+                "alpha_quality": 100,
+            }
+        else:
+            canvas = Image.new("RGB", (CANVAS_SIZE, CANVAS_SIZE), BACKGROUND)
+            canvas.paste(image, (x, y))
+            options = {"format": "WEBP", "quality": QUALITY, "method": 6}
+
+        destination_path = DESTINATION / source_path.name
+        canvas.save(destination_path, **options)
+
+    optimized_bytes += destination_path.stat().st_size
     count += 1
 
-if count != 17:
-    raise SystemExit(f"Expected 17 product photos, found {count}")
+if count == 0:
+    raise SystemExit(f"No product photos found in {SOURCE}")
 
 saved = original_bytes - optimized_bytes
 percent = (saved / original_bytes * 100) if original_bytes else 0
-print(f"Photos optimized: {count}")
+print(f"Photos standardized: {count} ({CANVAS_SIZE}x{CANVAS_SIZE}px each)")
 print(f"Original total: {original_bytes:,} bytes")
 print(f"Optimized total: {optimized_bytes:,} bytes")
 print(f"Saved: {saved:,} bytes ({percent:.1f}%)")
